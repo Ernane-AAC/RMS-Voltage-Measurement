@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title> Voltage Measurement </title>
+   <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+   <h1>RMS Voltage Measurement Using Arduino UNO</h1>
+   <div class="content1">
+       <h3> Motivation </h3>
+       <ul> 
+          <li> Present a low cost solution for rms voltage measurement</li>
+          <li> Sensor has to get the dc component </li>
+          <li> Sensor has to present a suitable bandwidth to measure an ac voltage include the typical low order harmonics</li>
+          <li> A majority of codes seen in the internet do not exploit the maximum capability of the Atmega328p</li>
+          <li> Present an example of ADC conversion triggered by the timer 1 </li>
+          <li> Present an example to get samples using ADC interrupt</li>
+       </ul>
+    </div>
+    <div>
+        <h3> Voltage Sensor and Signal Conditioning  </h3>
+        <p> The ac voltage measured by the sensor has to be conditioned to the analog input range of the microcontroller as presented in Fig. 1. </p>
+        <figure>
+           <img src="Signal_Conditioning.png" style="width:40%">
+		   <figcaption>Fig.1 - Signal Conditioning for the analog input range</figcaption>
+        </figure>
+    </div>
+	<div class="content2">
+        <h3> Pros and Cons of Different Voltage Sensors </h3>
+		<!--This is a comment. Comments are not displayed in the browser-->
+        <!--<table style="width:80%"> -->
+		<table>
+           <tr>
+              <th>Hall Efect (LV20-P)</th>
+              <th>Current transformer (ZMPT101B)</th>
+              <th>Differential Amplifier</th>
+           </tr>
+           <tr>
+              <td>
+			     <figure>
+                   <img src="V_sensor_Hall_Effect.jpg" style="width:40%">
+		         </figure>
+			  </td>
+              <td>
+			     <figure>
+                   <img src="V_sensor_ZMPT101B.jpg" style="width:100%">
+		         </figure>
+			  </td>
+              <td>
+			     <figure>
+                   <img src="V_sensor_Diferential.jpg" style="width:40%">
+		         </figure>
+			  </td>
+           </tr>
+           <tr>
+              <td>
+			     <ul>
+			        <li>Detects the dc component</li>
+                    <li>High bandwidth</li>
+                    <li>Galvanic isolation</li>
+                    <li>High Cost</li>
+                 </ul>
+			  </td>
+              <td>
+			     <ul>
+			        <li>Low cost</li>
+                    <li>Galvanic isolation</li>
+                    <li>Does not detect the dc component</li>
+                    <li>Restricted bandwidth</li>
+                 </ul>			  
+			  </td>
+              <td>
+			  	 <ul>
+			        <li>Low cost</li>
+                    <li>Detects the dc component</li>
+                    <li>Suitable bandwidth for grid voltage measurements</li>
+                    <li>No galvanic isolation (high impedance)</li>
+                 </ul>
+			  </td>
+           </tr>
+        </table>
+    </div>
+	<div class="content3">
+        <h3> Voltage Sensor Used in This Proposal (Differential Amplifier) </h3>
+		<figure>
+             <img src="Differential_Voltage_Sensor.png" style="width:70%">
+			 <figcaption>Fig.2 - Voltage sensor and signal conditioning scheme</figcaption>
+		</figure>
+		<h4 style="color:Tomato;">Warning </h4>
+		<p>The scheme presented in Fig. 2 is for laboratory use only. This has not been tested to verify its compliance with the standards relating to equipment for measuring voltage in electrical network circuits. Users shall use the scheme at their own risk and responsibility. </p>
+	</div>	
+	<div>
+        <h3> Multi-Point Calibration (Curve Fitting) </h3>
+		<p>Fig. 3 presents the result of the multi-point calibration process. Each point on the curve corresponds to average value of 1024 samples, considering a dc voltage applied to analog input, measured by a standard voltmeter. The gain and offset are determined by linear regression.</p>
+		<figure>
+             <img src="Calibration_process.png" style="width:40%">
+			 <figcaption>Fig.3 - Calibration result</figcaption>
+		</figure>
+	</div>	
+	<div class="content4">
+        <h3> Recommendations </h3>
+       <ul> 
+          <li> Connect a 7 to 9V power supply to Arduino, since this provides a more stable reference voltage to the ADC than that one provided by USB.</li>
+          <li> Pay attention in the PCB design for the voltage sensor because the high voltage presented in the input. </li>
+		  <li> Using a Baud Rate of 115200 bps, the USART takes around 85us to transmitt one byte, at leat 170us to transmit one sample. It is important to take this into account if the serial transmission is used to transfer the rms values to pc computer.</li>
+       </ul>
+	</div>	
+	<div class="content5">
+        <h3> Links </h3>
+		<ul> 
+	    <li><a href="https://github.com/Ernane-AAC/RMS-Voltage-Measurement/blob/main/Acq_RMS_Volt/Acq_RMS_Volt.ino">Complete Arduino Code for RMS Voltage Measurement</a></li>
+	    </ul>
+	</div>		
+</body>
+</html>
