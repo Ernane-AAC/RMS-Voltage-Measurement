@@ -8,6 +8,10 @@ h3 {
   color: darkblue;
 }
 
+figure {
+  margin: auto;
+}
+
 .content1{
    width: 200px
    margin:auto
